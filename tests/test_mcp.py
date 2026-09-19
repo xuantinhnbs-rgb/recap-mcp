@@ -115,6 +115,28 @@ def tools(client):
     return client.rpc("tools/list", {})["result"]["tools"]
 
 
+@pytest.fixture(scope="module")
+def recap_da_cai(client):
+    """Máy này có ReCap không — HỎI CHÍNH SERVER, không tự đoán lại.
+
+    Từng đoán: điều kiện bỏ qua được gắn vào sự tồn tại của project mẫu, còn hai
+    phép thử khác thì quên gắn hẳn. Chúng đạt trên máy phát triển và đổ trên CI,
+    nơi không có ReCap — đúng cái tình huống mà chúng lẽ ra phải tự bỏ qua.
+
+    Lấy điều kiện từ chính câu trả lời của server thì phép thử và thứ nó kiểm
+    không thể bất đồng: cùng một nguồn, cùng một lúc.
+    """
+    return client.call_tool("check_recap_installation")
+
+
+@pytest.fixture
+def can_recap(recap_da_cai):
+    """Dùng cho phép thử chỉ có nghĩa khi ReCap thật sự có mặt."""
+    if not recap_da_cai.get("ok"):
+        pytest.skip("Máy này không cài Autodesk ReCap")
+    return recap_da_cai
+
+
 # --------------------------------------------------------------------------
 # Bắt tay
 # --------------------------------------------------------------------------
@@ -175,17 +197,36 @@ def test_moi_tool_deu_co_input_schema(tools):
 
 
 def test_goi_tool_tra_ve_json_co_khoa_ok(client):
-    assert client.call_tool("check_recap_installation").get("ok") is True
+    """Hợp đồng chung của mọi tool, đúng ở CẢ HAI trạng thái máy.
 
-
-def test_bao_dung_la_khong_doc_duoc_diem_tu_rcs(client):
+    Cố tình KHÔNG đòi `ok is True`: trên máy không cài ReCap, `ok` là False và đó
+    là câu trả lời đúng, không phải lỗi. Thứ phải luôn đúng là *hình dạng* của
+    kết quả — có khoá `ok`, và nó là bool.
+    """
     payload = client.call_tool("check_recap_installation")
-    assert payload["capabilities"]["read_rcs_point_data"] is False
+    assert "ok" in payload
+    assert isinstance(payload["ok"], bool)
 
 
-@chi_khi_co_recap
-def test_nhan_dien_duoc_ban_recap_da_cai(client):
-    assert client.call_tool("check_recap_installation").get("version")
+def test_thieu_recap_thi_bao_loi_ro_chu_khong_tra_ve_rong(client, recap_da_cai):
+    """Đường chạy chỉ tồn tại trên máy KHÔNG cài ReCap — tức là trên CI.
+
+    Máy phát triển không bao giờ đi qua nhánh này, nên nếu không có một phép thử
+    chạy được ở nơi thiếu ReCap thì thông điệp lỗi ấy chẳng bao giờ được kiểm.
+    """
+    if recap_da_cai.get("ok"):
+        pytest.skip("Máy này có cài ReCap — nhánh lỗi không chạy tới")
+    assert recap_da_cai.get("error")
+    assert "RECAP_HOME" in recap_da_cai["error"]
+    assert recap_da_cai.get("searched"), "Phải nói rõ đã tìm ở những đâu"
+
+
+def test_bao_dung_la_khong_doc_duoc_diem_tu_rcs(can_recap):
+    assert can_recap["capabilities"]["read_rcs_point_data"] is False
+
+
+def test_nhan_dien_duoc_ban_recap_da_cai(can_recap):
+    assert can_recap.get("version")
 
 
 @chi_khi_co_recap

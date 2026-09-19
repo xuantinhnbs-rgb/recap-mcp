@@ -47,6 +47,14 @@ became a repository of its own.
   session with `sys.exit(1)` on any machine without ReCap. Rewritten as ordinary
   pytest functions with a fixture holding the server subprocess, and the parts
   that need a ReCap install now skip rather than fail.
+- **Two protocol tests did not skip on a machine without ReCap**, so the first CI
+  run on a clean Windows runner failed. The skip conditions had been guessed from a
+  proxy — the presence of ReCap's sample project — and two tests that needed the
+  installation itself were never marked at all. They now take their precondition
+  from the server's own `check_recap_installation` response, so the test and the
+  thing it tests cannot disagree. The path where ReCap is *absent* gained a test of
+  its own: that branch only ever executes on CI, so nothing else would have checked
+  that its error message is useful.
 - **`install.py` could die on the console it exists to diagnose.** Status lines
   containing accented characters raised `UnicodeEncodeError` on the default
   Windows cp1252 console, ending the diagnostic run partway through with a
