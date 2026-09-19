@@ -1,5 +1,5 @@
 # Autodesk ReCap MCP Server
-mcp>=1.2.0
+mcp>=2.2.0
 numpy>=1.24
 
 # Đọc point cloud LAS/LAZ. Gói lazrs là phần giải nén .laz — thiếu nó thì
