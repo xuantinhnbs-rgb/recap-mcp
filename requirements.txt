@@ -1,0 +1,10 @@
+# Autodesk ReCap MCP Server
+mcp>=1.2.0
+numpy>=1.24
+
+# Đọc point cloud LAS/LAZ. Gói lazrs là phần giải nén .laz — thiếu nó thì
+# chỉ đọc được .las, và các tool phân tích sẽ báo lỗi rõ ràng chứ không im lặng.
+laspy[lazrs]>=2.5
+
+# Truy vấn lân cận (cKDTree) cho so sánh point cloud với lưới BIM.
+scipy>=1.10
