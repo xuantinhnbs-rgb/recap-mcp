@@ -1,0 +1,79 @@
+name: Bug report
+description: Something does not work. / Báo lỗi.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Write in English or Vietnamese — both are fine. / Viết tiếng Anh hay tiếng Việt đều được.
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Which layer?
+      description: The server has three independent layers with different limits — see the table in the README.
+      options:
+        - Reading an .rcp project (read_project, list_scans, get_scan_registration, …)
+        - Headless processing with decap.exe (import_scans, get_job_status, …)
+        - Point-cloud analysis from LAS/LAZ (compare_to_bim_mesh, extract_cross_section, …)
+        - install.py / configuration
+        - Documentation
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you asked the model to do, and what the tool returned.
+      placeholder: |
+        I asked: "compare the scan against the design mesh with a 20 mm tolerance"
+        The tool returned: {"ok": false, "error": "..."}
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: install-check
+    attributes:
+      label: Output of `python install.py --check`
+      description: This one command answers most environment questions at once.
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: "Windows 11 23H2 · Python 3.12.4 · ReCap 26.1.1.221 · Claude Code 2.x"
+    validations:
+      required: true
+
+  - type: textarea
+    id: data
+    attributes:
+      label: About the data (analysis issues only)
+      description: >
+        Output of `inspect_point_cloud` on the file involved — point count, bounds
+        and CRS. Please do not attach project data; the header summary is enough.
+      render: text
+
+  - type: checkboxes
+    id: preconditions
+    attributes:
+      label: Before submitting
+      options:
+        - label: >
+            If this is about point coordinates, I am passing the ORIGINAL LAS/LAZ file,
+            not an .rcs — point data cannot be read back out of .rcs (see README).
+          required: true
+        - label: I searched the existing issues.
+          required: true

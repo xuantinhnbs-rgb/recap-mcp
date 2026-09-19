@@ -1,13 +1,47 @@
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
-.pytest_cache/
+*.egg-info/
 .venv/
 venv/
-env/
-*.egg-info/
-build/
-dist/
+
+# Cache cua cong cu phat trien
+.ruff_cache/
+.pytest_cache/
+
+# Cau hinh MCP chua duong dan tuyet doi cua tung may.
+# Chay "python install.py" de sinh lai. Ban mau: .mcp.json.example
+.mcp.json
+
+# File tam & ban luu
+*.bak
+*.log
+*.tmp
+
+# ---------------------------------------------------------------------------
+# Du lieu quet va san pham xu ly
+# ---------------------------------------------------------------------------
+# Mot file LAS/LAZ cua mot tuyen duong de dang vai GB, va du lieu quet thuc dia
+# thuong la du lieu cua mot cong trinh co that. Chan theo dinh dang chu khong
+# theo ten file, vi file moi se lien tuc xuat hien trong luc lam viec.
+*.las
+*.laz
+*.e57
+*.pts
+*.ptx
+*.rcp
+*.rcs
+*.obj
+*.stl
+*.ply
+
+# Ket qua chay thu: CSV thong ke, anh bieu do, thu muc xuat.
+outputs/
+out/
+
+# Anh minh chung thi VAN phai vao git - do la vat chung trong tai lieu.
+!docs/images/*.png
+
+# Cau hinh editor rieng cua tung nguoi
 .vscode/
 .idea/
-*.log

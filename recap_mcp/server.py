@@ -28,7 +28,6 @@ Chạy bằng:  python -m recap_mcp.server
 from __future__ import annotations
 
 import functools
-import os
 import subprocess
 from pathlib import Path
 from typing import Any, Dict, List, Optional

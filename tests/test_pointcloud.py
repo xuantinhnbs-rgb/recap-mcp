@@ -156,7 +156,9 @@ class TestSlabSection(unittest.TestCase):
         pts = np.zeros((1, 3))
         for normal in ([1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1], [0.3, -0.7, 0.2]):
             sec = pc.slab_section(pts, [0, 0, 0], normal, 1.0)
-            u = np.array(sec["axis_u"]); v = np.array(sec["axis_v"]); n = np.array(sec["normal"])
+            u = np.array(sec["axis_u"])
+            v = np.array(sec["axis_v"])
+            n = np.array(sec["normal"])
             for name, vec in (("u", u), ("v", v), ("n", n)):
                 self.assertAlmostEqual(float(np.linalg.norm(vec)), 1.0, places=9,
                                        msg=f"Trục {name} chưa chuẩn hoá với normal={normal}")
@@ -236,7 +238,8 @@ class TestLasRoundTrip(unittest.TestCase):
     def test_bbox_filter_matches_numpy(self):
         bbox = {"min": [10.0, 5.0, 1.0], "max": [30.0, 15.0, 4.0]}
         pts, _, info = pc.load_points(self.path, bbox=bbox)
-        mn = np.array(bbox["min"]); mx = np.array(bbox["max"])
+        mn = np.array(bbox["min"])
+        mx = np.array(bbox["max"])
         expected = int(np.count_nonzero(
             np.all((self.points >= mn) & (self.points <= mx), axis=1)))
         self.assertEqual(info["points_kept"], expected)

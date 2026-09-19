@@ -1,0 +1,59 @@
+name: Feature request
+description: Suggest a new tool or an improvement. / Đề xuất tool mới hoặc cải tiến.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Write in English or Vietnamese — both are fine. / Viết tiếng Anh hay tiếng Việt đều được.
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Which layer?
+      options:
+        - Reading an .rcp project
+        - Headless processing with decap.exe
+        - Point-cloud analysis from LAS/LAZ
+        - install.py / configuration
+        - Documentation
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: >
+        Describe the real surveying or Scan-to-BIM task, not just the API call you
+        have in mind. The measurement you need often decides the right tool shape.
+    validations:
+      required: true
+
+  - type: textarea
+    id: today
+    attributes:
+      label: How do you do it today?
+      description: >
+        Is there an existing tool that gets close? Several analyses can be composed
+        from `crop_point_cloud` + `fit_plane_to_region` + `compare_to_bim_mesh`.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed tool or change
+      placeholder: |
+        Tool name: ...
+        Parameters: ...
+        Returns: ...
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: How would the result be checked?
+      description: >
+        Every analysis tool here is tested against geometry with a hand-computable
+        answer — a known tilt, a known offset, a known point count. If you can name
+        such a case for your proposal, it usually ends up being the test.

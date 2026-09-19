@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/xuantinhnbs-rgb/recap-mcp/security/advisories/new
+    about: Report privately, not as a public issue. See SECURITY.md.
+  - name: Setup and troubleshooting
+    url: https://github.com/xuantinhnbs-rgb/recap-mcp#troubleshooting
+    about: Run `python install.py --check` first — it reports most configuration problems directly.
+  - name: "Known format limit: point data cannot be read from .rcs"
+    url: https://github.com/xuantinhnbs-rgb/recap-mcp#why-recap-is-different-from-the-other-autodesk-tools
+    about: The octree inside .rcs is a closed format. Quantitative tools take the original LAS/LAZ.
